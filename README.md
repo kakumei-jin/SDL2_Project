@@ -1,2 +1,2 @@
 # SDL2_Project
-A platformer game in developing...
+A 2D platformer game
