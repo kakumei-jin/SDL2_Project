@@ -1,9 +1,8 @@
-#pragma once
+﻿#pragma once
 #include <SDL.h>
-#include <SDL_image.h>
-#include "Player.h"
 #include "Map.h"
-#include "Constants.h"
+#include "Player.h"
+#include <vector>
 
 class Game {
 public:
@@ -12,24 +11,31 @@ public:
 
     void init(const char* title, int width, int height);
     void run();
-    void clean();
     bool running() const;
 
 private:
+    //  background scrolling
+    std::vector<SDL_Texture*> bgLayers;
+    std::vector<int>            bgTileW, bgTileH;   // kích thước mỗi texture
+    std::vector<float>          bgOffsets;          // offset current
+    std::vector<float>          bgSpeeds;           // pixels/frame 
+
     void handleEvents();
     void update();
     void render();
+    void clean();
 
-    bool isRunning;
     SDL_Window* window;
     SDL_Renderer* renderer;
-    SDL_Texture* backgroundTex; 
+    bool isRunning;
 
-    Player player;
     Map map;
+    Player player;
+
+    SDL_Texture* backgroundTex;
+    float backgroundScrollX; 
 
     Uint32 frameStart;
     int frameTime;
-    const int FPS = 60;
-    const int frameDelay = 1000 / FPS;
+    const int frameDelay = 1000 / 60;
 };

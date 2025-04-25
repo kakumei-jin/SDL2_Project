@@ -4,7 +4,7 @@
 #include <string>
 #include "Constants.h"
 
-class Map; 
+class Map;
 
 class Player {
 public:

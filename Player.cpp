@@ -15,10 +15,10 @@ Player::Player() :
     frame(0), frameDelay(6), frameCount(0),
     currentAnim("idle"),
     flip(SDL_FLIP_NONE),
-    srcRect{ 0, 0, 32, 32 }, 
-    playerScale(2)           
+    srcRect{ 0, 0, 32, 32 },
+    playerScale(2)
 {
-    
+
 }
 
 Player::~Player() {
@@ -80,7 +80,7 @@ void Player::update(const Map& map) {
         velY += GRAVITY;
     }
 
-    
+
     x += velX;
     y += velY;
 
@@ -96,17 +96,17 @@ void Player::update(const Map& map) {
     dstRect.y = static_cast<int>(y);
 
 
-    dstRect.y = static_cast<int>(oldY); 
+    dstRect.y = static_cast<int>(oldY);
     if (map.isColliding(dstRect.x, dstRect.y, dstRect.w, dstRect.h)) {
-        x = oldX; 
-        velX = 0; 
-        dstRect.x = static_cast<int>(x); 
+        x = oldX;
+        velX = 0;
+        dstRect.x = static_cast<int>(x);
     }
 
-   
-    dstRect.y = static_cast<int>(y); 
+
+    dstRect.y = static_cast<int>(y);
     if (map.isColliding(dstRect.x, dstRect.y, dstRect.w, dstRect.h)) {
-        if (velY > 0) { 
+        if (velY > 0) {
             int tilePixelH = TILE_HEIGHT * TILE_SCALE;
             int collidedTileRow = static_cast<int>((y + dstRect.h - 1) / tilePixelH);
             y = static_cast<float>(collidedTileRow * tilePixelH - dstRect.h);
@@ -129,7 +129,7 @@ void Player::update(const Map& map) {
     if (x < 0) { x = 0; velX = 0; }
     if (x + dstRect.w > WINDOW_WIDTH) { x = static_cast<float>(WINDOW_WIDTH - dstRect.w); velX = 0; }
     if (y < 0) { y = 0; velY = 0; }
-    if (y > WINDOW_HEIGHT) { 
+    if (y > WINDOW_HEIGHT) {
         x = 100.0f; y = 500.0f; velX = 0.0f; velY = 0.0f; onGround = false; currentAnim = "fall";
     }
 
@@ -197,5 +197,5 @@ void Player::render(SDL_Renderer* renderer) {
             SDL_RenderCopyEx(renderer, anim.texture, &srcRect, &dstRect, 0, nullptr, flip);
         }
     }
-    
+
 }

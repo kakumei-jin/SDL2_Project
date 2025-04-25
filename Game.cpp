@@ -36,12 +36,38 @@ void Game::init(const char* title, int width, int height) {
         printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
         SDL_DestroyWindow(window); IMG_Quit(); SDL_Quit(); return;
     }
-    SDL_SetRenderDrawColor(renderer, 135, 206, 235, 255); // Default clear color
+    // load các layer pattern
+    const char* paths[] = {
+        "assets/Yellow.png",
+        "assets/Blue.png",
+        "assets/Green.png",
+        "assets/Purple.png",
+        "assets/Gray.png"
+    };
+    const float speeds[] = { 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
+    int n = sizeof(paths) / sizeof(paths[0]);
+
+    bgLayers.reserve(n);
+    bgTileW.reserve(n);
+    bgTileH.reserve(n);
+    bgOffsets.assign(n, 0.0f);
+    bgSpeeds.assign(speeds, speeds + n);
+
+    for (int i = 0; i < n; ++i) {
+        SDL_Texture* tex = TextureManager::loadTexture(paths[i], renderer);
+        bgLayers.push_back(tex);
+        int w, h;
+        SDL_QueryTexture(tex, nullptr, nullptr, &w, &h);
+        bgTileW.push_back(w);
+        bgTileH.push_back(h);
+    }
+
+    SDL_SetRenderDrawColor(renderer, 135, 206, 235, 255);
     printf("Renderer created.\n");
 
     printf("Loading game resources...\n");
-    backgroundTex = TextureManager::loadTexture("assets/nature.png", renderer); // Ensure this exists
-    map.init("assets/terrain16x16.png", renderer); // Ensure this exists
+    backgroundTex = TextureManager::loadTexture("assets/nature.png", renderer); 
+    map.init("assets/terrain16x16.png", renderer); 
     player.init(renderer);
     printf("Game resources loaded.\n");
 
@@ -55,7 +81,6 @@ void Game::handleEvents() {
         if (event.type == SDL_QUIT) {
             isRunning = false;
         }
-        // Other event handling if needed
     }
 }
 
@@ -63,27 +88,45 @@ void Game::update() {
     const Uint8* keystate = SDL_GetKeyboardState(NULL);
     player.handleInput(keystate);
     player.update(map);
-    // Update other game objects here
+
+        for (size_t i = 0; i < bgLayers.size(); ++i) {
+            bgOffsets[i] += bgSpeeds[i];
+            if (bgOffsets[i] >= bgTileW[i]) {
+                bgOffsets[i] -= bgTileW[i];
+            }
+        }
 }
 
 void Game::render() {
-    SDL_SetRenderDrawColor(renderer, 135, 206, 235, 255); // Light blue background
+    SDL_SetRenderDrawColor(renderer, 135, 206, 235, 255); 
     SDL_RenderClear(renderer);
 
     if (backgroundTex) {
         SDL_Rect bgDest = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
         SDL_RenderCopy(renderer, backgroundTex, nullptr, &bgDest);
     }
+    // render layer background 
+    for (size_t i = 0; i < bgLayers.size(); ++i) {
+        SDL_Texture* tex = bgLayers[i];
+        int tw = bgTileW[i], th = bgTileH[i];
+        int off = static_cast<int>(bgOffsets[i]);
+ 
+        for (int y = 0; y < WINDOW_HEIGHT; y += th) {
+            for (int x = -tw + off; x < WINDOW_WIDTH; x += tw) {
+                SDL_Rect dst = { x, y, tw, th };
+                SDL_RenderCopy(renderer, tex, nullptr, &dst);
+            }
+        }
+    }
 
     map.render(renderer);
     player.render(renderer);
-    // Render other game objects here
 
     SDL_RenderPresent(renderer);
 }
 
 void Game::run() {
-    if (!isRunning) { // Don't run if init failed
+    if (!isRunning) {
         printf("Game initialization failed. Cannot run game loop.\n");
         return;
     }

@@ -21,12 +21,12 @@ void Map::init(const char* tilesetPath, SDL_Renderer* renderer) {
         return;
     }
 
-    
+
     const int EMPTY_TILE = 0;
     const int GREY_BRICK_1 = 1;
-    const int GROUND_TILE_GREEN = (1 * TILESET_COLS) + 0; 
-    const int DIRT_BLOCK = (1 * TILESET_COLS) + 2;        
-    const int GOLD_BLOCK = (10 * TILESET_COLS) + 7;       
+    const int GROUND_TILE_GREEN = (1 * TILESET_COLS) + 0;
+    const int DIRT_BLOCK = (1 * TILESET_COLS) + 2;
+    const int GOLD_BLOCK = (10 * TILESET_COLS) + 7;
 
     int initialMap[MAP_ROWS][MAP_COLS] = {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -68,7 +68,7 @@ void Map::render(SDL_Renderer* renderer) {
     for (int row = 0; row < MAP_ROWS; ++row) {
         for (int col = 0; col < MAP_COLS; ++col) {
             int tileID = mapData[row][col];
-            if (tileID == 0) continue; 
+            if (tileID == 0) continue;
 
             SDL_Rect src = getTileSrcRect(tileID);
             SDL_Rect dst = {
@@ -86,7 +86,7 @@ bool Map::isColliding(int x, int y, int w, int h) const {
     int tilePixelW = TILE_WIDTH * TILE_SCALE;
     int tilePixelH = TILE_HEIGHT * TILE_SCALE;
 
-    if (tilePixelW <= 0 || tilePixelH <= 0) return false; 
+    if (tilePixelW <= 0 || tilePixelH <= 0) return false;
 
     int leftTile = x / tilePixelW;
     int rightTile = (x + w - 1) / tilePixelW;
