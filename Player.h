@@ -16,6 +16,11 @@ public:
     void update(const Map& map);
     void render(SDL_Renderer* renderer);
 
+    float getX() const { return x; }
+    float getY() const { return y; }
+    const SDL_Rect& getDstRect() const { return dstRect; }
+
+
 private:
     struct Animation {
         SDL_Texture* texture = nullptr;
