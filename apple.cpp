@@ -70,11 +70,6 @@ void Apple::update(const Map& map) {
 
     updateAnimation();
 
-    Uint32 currentTime = SDL_GetTicks();
-    if (currentTime - spawnTime >= 5000) {
-        spawn(map);
-    }
-
     dstRect.x = static_cast<int>(x);
     dstRect.y = static_cast<int>(y);
 }
@@ -104,4 +99,8 @@ bool Apple::isCollected(const SDL_Rect& playerRect) const {
         playerRect.x + playerRect.w > appleRect.x &&
         playerRect.y < appleRect.y + appleRect.h &&
         playerRect.y + playerRect.h > appleRect.y);
+}
+
+Uint32 Apple::getSpawnTime() const {
+    return spawnTime;
 }

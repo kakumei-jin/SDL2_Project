@@ -17,7 +17,7 @@ public:
     void incrementScore();
 
 private:
-    Apple apple;
+    
     //  background scrolling
     std::vector<SDL_Texture*> bgLayers;
     std::vector<int>            bgTileW, bgTileH;   // kích thước mỗi texture
@@ -28,17 +28,18 @@ private:
     void update();
     void render();
     void clean();
-    bool init();
+    void reset(); // Thêm hàm reset game
 
 
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool isRunning;
     bool gameOver = false;
-    const Uint32 appleTimeout = 5000; // 5 giây
+    const Uint32 appleTimeout = 8000; // 8 giây để ăn táo
 
     Map map;
     Player player;
+    Apple apple;
 
     SDL_Texture* backgroundTex;
     float backgroundScrollX; 
@@ -47,14 +48,24 @@ private:
     int frameTime;
     const int frameDelay = 1000 / 60;
 
-    // Score và high score
+    // score và high score
     int score;
     int highScore;
-    TTF_Font* font;
+    TTF_Font* font;           // Font cho score, high score, timer
+    TTF_Font* gameOverFont;   // Font riêng cho "You Lost"
     SDL_Texture* scoreTexture;
     SDL_Texture* highScoreTexture;
+    SDL_Texture* timerTexture;    // Texture cho thời gian đếm ngược
+    SDL_Texture* gameOverTexture; // Texture cho "You Lost"
+    SDL_Texture* restartTexture; // Texture cho nút Restart
     SDL_Rect scoreRect;
     SDL_Rect highScoreRect;
+    SDL_Rect timerRect;
+    SDL_Rect gameOverRect;
+    SDL_Rect restartRect;       // Rect cho nút Restart
 
     void updateScoreDisplay(); // Cập nhật texture hiển thị điểm
+    void updateTimerDisplay(Uint32 remainingTime); // Cập nhật thời gian đếm ngược
+    void loadHighScore();                         // Đọc high score từ file
+    void saveHighScore();                         // Lưu high score vào file
 };

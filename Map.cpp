@@ -31,13 +31,13 @@ void Map::init(const char* tilesetPath, SDL_Renderer* renderer) {
     int initialMap[MAP_ROWS][MAP_COLS] = {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, GOLD_BLOCK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, GOLD_BLOCK, 0, GOLD_BLOCK, GOLD_BLOCK,GOLD_BLOCK, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, DIRT_BLOCK, DIRT_BLOCK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, DIRT_BLOCK, DIRT_BLOCK, DIRT_BLOCK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, DIRT_BLOCK, DIRT_BLOCK, DIRT_BLOCK, 0, 0, 0, GOLD_BLOCK, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, GOLD_BLOCK,GOLD_BLOCK ,  0, 0, 0, GOLD_BLOCK, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN }
     };
