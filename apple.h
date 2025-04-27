@@ -14,7 +14,7 @@ public:
     void render(SDL_Renderer* renderer);
     bool isCollected(const SDL_Rect& playerRect) const;
     void respawn(const Map& map); 
-    Uint32 getSpawnTime() const; // hàm lấy spawnTime
+    Uint32 getSpawnTime() const; 
 
 private:
     void spawn(const Map& map);

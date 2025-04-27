@@ -45,9 +45,6 @@ void Player::loadAnimations(SDL_Renderer* renderer) {
     animations["run"] = { TextureManager::loadTexture("assets/animation/run32x32.png", renderer), 12, 32, 32 };
     animations["jump"] = { TextureManager::loadTexture("assets/animation/jump32x32.png", renderer), 1, 32, 32 };
     animations["fall"] = { TextureManager::loadTexture("assets/animation/fall32x32.png", renderer), 1, 32, 32 };
-    animations["hit"] = { TextureManager::loadTexture("assets/animation/hit32x32.png", renderer), 7, 32, 32 };
-    animations["double_jump"] = { TextureManager::loadTexture("assets/animation/doublejump32x32.png", renderer), 6, 32, 32 };
-    animations["wall_jump"] = { TextureManager::loadTexture("assets/animation/walljump32x32.png", renderer), 5, 32, 32 };
     printf("Player animations loaded.\n");
 }
 

@@ -12,10 +12,10 @@ const float MOVE_SPEED = 4.5f;
 // Tile constants
 const int TILE_WIDTH = 16;
 const int TILE_HEIGHT = 16;
-const int TILESET_COLS = 4;  // Sprite mới có 4 cột
-const int TILESET_ROWS = 4;  // Sprite mới có 4 hàng
+const int TILESET_COLS = 4;  
+const int TILESET_ROWS = 4;  
 const int TILE_SCALE = 4;
 
-// Map dimensions (Logical game map size)
+// Map dimensions 
 const int MAP_ROWS = 11;
 const int MAP_COLS = 22;

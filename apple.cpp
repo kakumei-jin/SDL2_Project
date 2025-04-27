@@ -37,21 +37,39 @@ void Apple::init(SDL_Renderer* renderer, const Map& map) {
 void Apple::spawn(const Map& map) {
     std::random_device rd;
     std::mt19937 rng(rd());
-    std::uniform_int_distribution<int> distX(0, MAP_COLS - 1);
-    std::uniform_int_distribution<int> distY(0, MAP_ROWS - 2);
+
+    int tilePixelW = TILE_WIDTH * TILE_SCALE; 
+    int tilePixelH = TILE_HEIGHT * TILE_SCALE; 
+
+    int maxCol = (WINDOW_WIDTH - (32 * scale)) / tilePixelW; 
+    int maxRow = (WINDOW_HEIGHT - (32 * scale)) / tilePixelH; 
+
+    std::uniform_int_distribution<int> distX(0, maxCol); 
+    std::uniform_int_distribution<int> distY(2, maxRow); 
 
     bool validPosition = false;
-    int tilePixelW = TILE_WIDTH * TILE_SCALE;
-    int tilePixelH = TILE_HEIGHT * TILE_SCALE;
-
     while (!validPosition) {
         int col = distX(rng);
         int row = distY(rng);
         x = static_cast<float>(col * tilePixelW);
         y = static_cast<float>(row * tilePixelH);
         dstRect = { static_cast<int>(x), static_cast<int>(y), 32 * scale, 32 * scale };
+
         if (!map.isColliding(dstRect.x, dstRect.y, dstRect.w, dstRect.h)) {
-            validPosition = true;
+            bool hasGroundBelow = false;
+            int checkRow = row + 1;
+            int maxJumpHeightRows = 9; 
+            while (checkRow < MAP_ROWS && checkRow <= row + maxJumpHeightRows) {
+                if (map.isColliding(dstRect.x, checkRow * tilePixelH, dstRect.w, dstRect.h)) {
+                    hasGroundBelow = true;
+                    break;
+                }
+                checkRow++;
+            }
+
+            if (hasGroundBelow) {
+                validPosition = true;
+            }
         }
     }
 
@@ -59,10 +77,11 @@ void Apple::spawn(const Map& map) {
     spawnTime = SDL_GetTicks();
     frame = 0;
     frameCount = 0;
+    printf("Apple spawned at x: %f, y: %f (row: %d, col: %d)\n", x, y, static_cast<int>(y / tilePixelH), static_cast<int>(x / tilePixelW));
 }
 
 void Apple::respawn(const Map& map) {
-    spawn(map); 
+    spawn(map);
 }
 
 void Apple::update(const Map& map) {

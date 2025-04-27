@@ -18,57 +18,88 @@ public:
     void incrementScore();
 
 private:
-    
-    //  background scrolling
+    // Game states
+    enum class GameState {
+        MENU,
+        SETTINGS,
+        PLAYING,
+        PAUSED,
+        GAME_OVER
+    };
+    GameState state;
+
+    // Background scrolling
     std::vector<SDL_Texture*> bgLayers;
-    std::vector<int>            bgTileW, bgTileH;   // kích thước mỗi texture
-    std::vector<float>          bgOffsets;          // offset current
-    std::vector<float>          bgSpeeds;           // pixels/frame 
+    std::vector<int> bgTileW, bgTileH;
+    std::vector<float> bgOffsets;
+    std::vector<float> bgSpeeds;
 
     void handleEvents();
     void update();
     void render();
     void clean();
-    void reset(); // Thêm hàm reset game
-
+    void reset();
+    void updateVolumeDisplay(); // new method to update volume display
+    void pauseMusic(); // new method to pause music
+    void resumeMusic(); // new method to resume music
 
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool isRunning;
-    bool gameOver = false;
-    const Uint32 appleTimeout = 8000; // 8 giây để ăn táo
+    const Uint32 appleTimeout = 8000;
 
     Map map;
     Player player;
     Apple apple;
 
-    SDL_Texture* backgroundTex;
-    float backgroundScrollX; 
-
     Uint32 frameStart;
     int frameTime;
     const int frameDelay = 1000 / 60;
 
-    // score và high score
+    //score and high score
     int score;
     int highScore;
-    TTF_Font* font;           // Font cho score, high score, timer
-    TTF_Font* gameOverFont;   // Font riêng cho "You Lost"
+    TTF_Font* font;
+    TTF_Font* menuFont;
+    TTF_Font* gameOverFont;
     SDL_Texture* scoreTexture;
     SDL_Texture* highScoreTexture;
-    SDL_Texture* timerTexture;    // Texture cho thời gian đếm ngược
-    SDL_Texture* gameOverTexture; // Texture cho "You Lost"
-    SDL_Texture* restartTexture; // Texture cho nút Restart
+    SDL_Texture* timerTexture;
+    SDL_Texture* gameOverTexture;
+    SDL_Texture* restartTexture;
     SDL_Rect scoreRect;
     SDL_Rect highScoreRect;
     SDL_Rect timerRect;
     SDL_Rect gameOverRect;
-    SDL_Rect restartRect;       // Rect cho nút Restart
+    SDL_Rect restartRect;
+
+    //  menu elements
+    SDL_Texture* playTexture;
+    SDL_Rect playRect;
+    SDL_Texture* settingsTexture;
+    SDL_Rect settingsRect;
+
+    // settings screen elements
+    SDL_Texture* backTexture;
+    SDL_Rect backRect;
+    SDL_Texture* volumeUpTexture;
+    SDL_Rect volumeUpRect;
+    SDL_Texture* volumeDownTexture;
+    SDL_Rect volumeDownRect;
+    SDL_Texture* volumeDisplayTexture; // new texture for volume display
+    SDL_Rect volumeDisplayRect; // new rect for volume display
+    int musicVolume;
+
+    // pause elements
+    SDL_Texture* pauseTexture;
+    SDL_Texture* resumeTexture;
+    SDL_Rect pauseRect;
+    SDL_Rect resumeRect;
 
     Mix_Music* backgroundMusic;
 
-    void updateScoreDisplay(); // Cập nhật texture hiển thị điểm
-    void updateTimerDisplay(Uint32 remainingTime); // Cập nhật thời gian đếm ngược
-    void loadHighScore();                         // Đọc high score từ file
-    void saveHighScore();                         // Lưu high score vào file
+    void updateScoreDisplay();
+    void updateTimerDisplay(Uint32 remainingTime);
+    void loadHighScore();
+    void saveHighScore();
 };

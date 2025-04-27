@@ -17,28 +17,25 @@ Map::~Map() {
 void Map::init(const char* tilesetPath, SDL_Renderer* renderer) {
     tileset = TextureManager::loadTexture("assets/platforms.png", renderer);
     if (!tileset) {
-        printf("Failed to load tileset texture in Map::init: %s\n", tilesetPath);
+        printf("Failed to load tileset texture: %s\n", tilesetPath);
         return;
     }
 
     const int EMPTY_TILE = 0;
-    const int GREY_BRICK_1 = 1;
-    const int GROUND_TILE_GREEN = (0 * TILESET_COLS) + 0; // Hàng 0, cột 0: Khối xanh lá
-    const int DIRT_BLOCK = (1 * TILESET_COLS) + 2;
-    const int GOLD_BLOCK = (1 * TILESET_COLS) + 0; // Hàng 1, cột 0: Khối nâu
+    const int GOLD_BLOCK = (1 * TILESET_COLS) + 0;
 
     int initialMap[MAP_ROWS][MAP_COLS] = {
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Hàng 0
-        { 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Hàng 1
-        { 0, 0, 0, 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0, 0, 0, 0 }, // Hàng 2
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Hàng 3
-        { 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0, 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0 }, // Hàng 4
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Hàng 5
-        { 0, 0, 0, 0, 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Hàng 6
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Hàng 7
-        { GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK }, // Hàng 8
-        { GROUND_TILE_GREEN, GROUND_TILE_GREEN, 0, 0, 0, 0, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN, GROUND_TILE_GREEN }, // Hàng 9
-        { GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK}  // Hàng 10
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0, 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK, GOLD_BLOCK }
     };
 
     for (int row = 0; row < MAP_ROWS; ++row) {
@@ -50,8 +47,6 @@ void Map::init(const char* tilesetPath, SDL_Renderer* renderer) {
 }
 
 SDL_Rect Map::getTileSrcRect(int tileID) const {
-    if (tileID < 0) tileID = 0;
-
     SDL_Rect src;
     src.w = TILE_WIDTH;
     src.h = TILE_HEIGHT;

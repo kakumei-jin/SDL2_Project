@@ -38,7 +38,6 @@ private:
     bool onGround;
     bool isMovingHorizontally;
     bool justJumped;
-
     int frame;
     int frameDelay;
     int frameCount;
