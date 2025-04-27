@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include "Map.h"
 #include "Player.h"
 #include <vector>
@@ -63,6 +64,8 @@ private:
     SDL_Rect timerRect;
     SDL_Rect gameOverRect;
     SDL_Rect restartRect;       // Rect cho nút Restart
+
+    Mix_Music* backgroundMusic;
 
     void updateScoreDisplay(); // Cập nhật texture hiển thị điểm
     void updateTimerDisplay(Uint32 remainingTime); // Cập nhật thời gian đếm ngược

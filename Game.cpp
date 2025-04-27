@@ -21,14 +21,15 @@ Game::Game() :
     backgroundScrollX(0.0f),
     frameStart(0),
     frameTime(0),
-    score(0),            
-    highScore(0),         
+    score(0),
+    highScore(0),
     font(nullptr),
     scoreTexture(nullptr),
     highScoreTexture(nullptr),
     timerTexture(nullptr),
     gameOverTexture(nullptr),
-    gameOver(false)
+    gameOver(false),
+    backgroundMusic(nullptr)
 {
     scoreRect = { 10, 10, 0, 0 };      // góc trên bên trái
     highScoreRect = { 10, 40, 0, 0 };  // dưới score một chút
@@ -120,6 +121,14 @@ void Game::init(const char* title, int width, int height) {
     }
     printf("SDL_ttf initialized.\n");
 
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+        TTF_Quit(); IMG_Quit(); SDL_Quit();
+        SDL_Delay(5000);
+        return;
+    }
+    printf("SDL_mixer initialized.\n");
+
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
     if (!window) {
         printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
@@ -208,8 +217,8 @@ void Game::init(const char* title, int width, int height) {
         gameOverTexture = SDL_CreateTextureFromSurface(renderer, gameOverSurface);
         gameOverRect.w = gameOverSurface->w;
         gameOverRect.h = gameOverSurface->h;
-        gameOverRect.x = WINDOW_WIDTH / 2 - gameOverRect.w / 2; 
-        gameOverRect.y = WINDOW_HEIGHT / 2 - gameOverRect.h / 2 - 30; 
+        gameOverRect.x = WINDOW_WIDTH / 2 - gameOverRect.w / 2;
+        gameOverRect.y = WINDOW_HEIGHT / 2 - gameOverRect.h / 2 - 30;
         SDL_FreeSurface(gameOverSurface);
     }
     else {
@@ -223,13 +232,29 @@ void Game::init(const char* title, int width, int height) {
         restartTexture = SDL_CreateTextureFromSurface(renderer, restartSurface);
         restartRect.w = restartSurface->w;
         restartRect.h = restartSurface->h;
-        restartRect.x = WINDOW_WIDTH / 2 - restartRect.w / 2; 
+        restartRect.x = WINDOW_WIDTH / 2 - restartRect.w / 2;
         restartRect.y = gameOverRect.y + gameOverRect.h + 20; // dưới "You Lost" 20 pixel
         SDL_FreeSurface(restartSurface);
         printf("Restart button created successfully.\n");
     }
     else {
         printf("Failed to render restart text! TTF Error: %s\n", TTF_GetError());
+    }
+
+    // Tải và phát nhạc nền
+    std::string musicPath = getExecutableDirectory() + "assets/music/backhome.mp3";
+    backgroundMusic = Mix_LoadMUS(musicPath.c_str());
+    if (!backgroundMusic) {
+        printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
+    }
+    else {
+        // Phát nhạc nền, lặp vô hạn (-1)
+        if (Mix_PlayMusic(backgroundMusic, -1) == -1) {
+            printf("Failed to play background music! SDL_mixer Error: %s\n", Mix_GetError());
+        }
+        else {
+            printf("Background music playing.\n");
+        }
     }
 
     printf("Game resources loaded.\n");
@@ -244,7 +269,7 @@ void Game::incrementScore() {
     if (score > highScore) {
         highScore = score;
     }
-    updateScoreDisplay(); 
+    updateScoreDisplay();
 }
 
 void Game::updateScoreDisplay() {
@@ -356,10 +381,10 @@ void Game::update() {
 
     // kiểm tra thời gian táo
     Uint32 currentTime = SDL_GetTicks();
-    Uint32 spawnTime = apple.getSpawnTime(); 
+    Uint32 spawnTime = apple.getSpawnTime();
     Uint32 timeElapsed = currentTime - spawnTime;
     if (timeElapsed >= appleTimeout) {
-        gameOver = true; 
+        gameOver = true;
     }
     else {
         Uint32 remainingTime = appleTimeout - timeElapsed;
@@ -460,9 +485,18 @@ void Game::clean() {
     if (font) TTF_CloseFont(font);
     if (gameOverFont) TTF_CloseFont(gameOverFont);
 
+
+    // Giải phóng nhạc nền
+    if (backgroundMusic) {
+        Mix_FreeMusic(backgroundMusic);
+        backgroundMusic = nullptr;
+        printf("Background music freed.\n");
+    }
+
     if (renderer) { SDL_DestroyRenderer(renderer); renderer = nullptr; printf("Renderer destroyed.\n"); }
     if (window) { SDL_DestroyWindow(window); window = nullptr; printf("Window destroyed.\n"); }
 
+    Mix_CloseAudio();
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();
