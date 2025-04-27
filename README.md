@@ -18,6 +18,7 @@ Pixel Frog - Pixel Adventure (sprites nhân vật, nền, tilemap)
 Brackeys' Platformer Assets Bundle (vật phẩm, một số chi tiết trang trí)
 
 📎 Link tải Asset Pixel Frog - Pixel Adventure (https://pixelfrog-assets.itch.io/pixel-adventure-1)
+
 📎 Link tải Asset Brackeys' Platformer Bundle (https://brackeysgames.itch.io/brackeys-platformer-bundle)
 
  + Pixel Adventure: Những asset này được phát hành theo giấy phép Creative Commons Zero (CC0).
