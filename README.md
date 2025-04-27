@@ -1,4 +1,5 @@
 🍏 Apple Catching
+
 Apple Catching là một trò chơi platformer mini, nơi bạn phải nhanh tay ăn được quả táo trong vòng 8 giây. Nếu không kịp, bạn sẽ thua!
 Game được lập trình bằng C++ sử dụng SDL2 cho đồ họa và xử lý input.
 
