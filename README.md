@@ -30,6 +30,7 @@ Không bắt buộc ghi nguồn (attribution).
 
 
 🛠️ Công nghệ
+
 Ngôn ngữ lập trình: C++
 
 Thư viện chính: SDL2
@@ -41,12 +42,15 @@ SDL2_image (load hình ảnh)
 SDL2_mixer (âm thanh, nếu thêm sau này)
 
 🎬 Demo Gameplay
+
 📺 Xem video demo tại đây: https://youtu.be/Vq-ZJoa8Rq0
 
 📦 Tải game
+
 🔗 Link tải bản chơi thử (thêm link tải .zip hoặc file .exe ở đây)
 
 📜 Hướng dẫn build
+
 Cài đặt SDL2 và SDL2_image (nếu build local).
 
 Build project bằng Visual Studio 2022 hoặc g++.
@@ -70,4 +74,5 @@ g++ main.cpp game.cpp player.cpp map.cpp apple.cpp -o AppleCatching -lSDL2 -lSDL
  Thêm âm thanh và hiệu ứng (đang phát triển)
 
 💬 Góp ý hoặc báo lỗi
+
 Mọi góp ý vui lòng gửi về email: katoriwork160306@gmail.com hoặc GitHub.
