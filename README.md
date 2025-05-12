@@ -10,7 +10,7 @@ Mỗi quả táo xuất hiện, bạn có 8 giây để ăn được nó.
 
 Nếu ăn thành công: tiếp tục đến quả táo mới.
 
-Nếu không kịp: You Lost.
+Nếu không kịp: Game Over.
 
 🎨 Assets sử dụng
 Pixel Frog - Pixel Adventure (sprites nhân vật, nền, tilemap)
@@ -70,8 +70,6 @@ g++ main.cpp game.cpp player.cpp map.cpp apple.cpp -o AppleCatching -lSDL2 -lSDL
  Timer 8 giây cho mỗi quả táo
 
  Game over nếu không ăn kịp
-
- Thêm âm thanh và hiệu ứng (đang phát triển)
 
 💬 Góp ý hoặc báo lỗi
 
